@@ -1,18 +1,18 @@
 from flask import render_template, request
 from app import app
 from form import UrlForm
-from anti-sensor import traffic, localization
+from anti_sensor import traffic, localization
 
 @app.route("/model")
 @app.route('/')
 def homepage():
     print('routed correctly')
     form = UrlForm()
-    return render_template('index.html',
+    return render_template('home.html',
                            title="Hamburglar!",
                            form=form)
 
-@app.route("/results", methods=["post"])
+@app.route("/results.html", methods=["post"])
 def results():
     try:
         side1 = get_packets('side1')
@@ -31,7 +31,9 @@ def results():
 
         results = []
         for d in devices:
-            results += fit(d, request.form['Length'], request.form['Width'])
+            results += (d, fit(d, request.form['Length'], request.form['Width']))
+
+        results = pd.DataFrame(dic(results)).to_html()
 
     except AssertionError:
         results = {'none': ['']}

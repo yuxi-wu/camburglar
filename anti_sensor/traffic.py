@@ -135,7 +135,7 @@ def all_device_stats(data, spy_or_facetime=0):
             & (stats['packets_sent'] == 2) \
             & (stats['size_sent'].between(150, 200))]['device']
     elif spy_or_facetime == 1:
-        return stats[(stats['packets_received']).between(75, 95)) \
+        return stats[(stats['packets_received'].between(75, 95)) \
             & (stats['size_received'] > 100)\
             & (stats['packets_sent'].between(60, 80)) \
             & (stats['size_sent'] < 200)\
