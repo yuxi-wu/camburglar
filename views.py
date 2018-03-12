@@ -31,7 +31,7 @@ def results():
 
         results = []
         for d in devices:
-            results += (d, fit(d, request.form['Length'], request.form['Width']))
+            results += (d, fit(d, int(request.form['Length']), int(request.form['Width'])))
 
         results = pd.DataFrame(dic(results)).to_html()
 

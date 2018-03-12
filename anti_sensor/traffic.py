@@ -142,7 +142,6 @@ def all_device_stats(data, spy_or_facetime=0):
             & (stats['size_sent'] > 150)]['device']
 
 
-
 def get_device_traffic_counts(data, device, rolling=False, grouped=True):
     '''
     returns all packets sent and received from a given device in a tup.
