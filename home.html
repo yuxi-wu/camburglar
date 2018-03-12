@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+  <title>Hamburglar</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="../static/bias_buster_home.css">
+    <div id="header">
+        <p id="headertext">Hamburglar | <a href="">Home</a></p>
+	</div>
+	<h1>Hamburglar</h1>
+    <form action="results", method='post'>
+        <input type="text" name="Length" placeholder="Room length..."><br>
+        <input type="text" name="Width" placeholder="Room width..."><br>
+
+        <input type="submit" value="Submit">
+   </form>
+
+{% endblock %}
