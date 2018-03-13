@@ -3,7 +3,7 @@
     <script src="jquery.js"></script>
     <script>
         $(function(){
-            $("#includedContent").load("../anti_sensor/locs.html");
+            $("#includedContent").load("../locs.html");
         });
     </script>
 </head>
@@ -17,6 +17,9 @@
 <h1>Results</h1>
 <ul>
 
-    {{data['results']}} possibly suspicious devices found!
+    <h2>{{data['results']}} possibly suspicious devices found!</h2>
+    {% for table in tables %}
+        {{ table|safe }}
+    {% endfor %}
     <div id="includedContent"></div>
 </ul>

@@ -16,9 +16,11 @@ def homepage():
 @app.route("/results", methods=["post"])
 def results():
     try:
-        results = {'results': sense(int(request.form['Length']), int(request.form['Width']))}
+        num_dev, table = sense(int(request.form['Length']), int(request.form['Width']))
+
+        results = {'results':num_dev}
 
     except AssertionError:
         results = {'none': ['']}
 
-    return render_template("results.html", data=results)
+    return render_template("results.html", tables=[table], data=results)

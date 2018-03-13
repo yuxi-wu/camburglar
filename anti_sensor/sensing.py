@@ -18,7 +18,7 @@ def sense(x, y, sof=1):
     locs = pd.DataFrame([{'device':d, 'coords':(fit(df, d, x, y)[2], fit(df, d, x, y)[3])} for d in devices])
     locs = locs.to_html().replace('\n','')
 
-    with open('locs.html', 'w') as html:
-        html.write(locs)
+    #with open('locs.html', 'w') as html:
+        #html.write(locs)
 
-    return len(devices)
+    return len(devices), locs
