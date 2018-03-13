@@ -1,5 +1,5 @@
 <head>
-    <title>Hamburglar | Results</title>
+    <title>Camburglar | Results</title>
     <script src="jquery.js"></script>
     <script>
         $(function(){
@@ -8,16 +8,16 @@
     </script>
 </head>
 
-<link rel="stylesheet" type="text/css" href="../css/results.css">
+<link type="text/css" rel="stylesheet" href="../static/results.css">
 
 <div id="header">
-	<p class="header">Hamburglar | <a class="header" href="home.html">Home</a></p>
+	<p class="header">Camburglar | <a class="header" href="home.html">Home</a></p>
 </div>
 
 <h1>Results</h1>
 <ul>
 
-    <h2>{{data['results']}} possibly suspicious devices found!</h2>
+    <h2>{{data['results']}} possibly suspicious device(s) found!</h2>
     {% for table in tables %}
         {{ table|safe }}
     {% endfor %}

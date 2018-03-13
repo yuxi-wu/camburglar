@@ -15,7 +15,6 @@ body {
 	margin-right: -10px;
 	padding: 10px;
 }
-
 h1 {
 	font-family: "Lucida Console", Monaco, monospace;
 	font-size: 30px;
@@ -38,12 +37,10 @@ p {
 	font-size: 20px;
 	color: #ffffff;
 	"Lucida Console", Monaco, monospace;
-
 }
 #headertext, a {
 	color: #d86f0e;
 }
-
 ul {
 	list-style-type: none;
 	text-align: left;
@@ -81,7 +78,6 @@ li.center {
     height: 50px;
     width: 200px;
     font-size: 18px;
-
 }
 #submit:hover {
     color: #d86f0e;
