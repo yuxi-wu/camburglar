@@ -31,9 +31,8 @@ def fit(df, mac_addr, room_len, room_wid):
     '''
     tx = df[df['Source'].str.contains(mac_addr)]
     time = tx['Time']
-    t = max(time)
 
-    tx['side'] = pd.cut(tx['Time'], [-1,10,20,30,40], labels=['side1','side2','side3', 'side4'])
+    tx['side'] = pd.cut(tx['Time'], [0,10,20,30,41], labels=['side1','side2','side3', 'side4'])
 
     tx1 = tx[tx['side'] == 'side1']
     tx2 = tx[tx['side'] == 'side2']
@@ -53,6 +52,5 @@ def fit(df, mac_addr, room_len, room_wid):
                 'Time':time}
     loc_df = pd.DataFrame(loc_dict)
     tx = tx.merge(loc_df, on='Time', how='left')
-    # return tx
-    popts = c_fit(tx, room_len, room_wid)
-    return popts
+
+    return c_fit(tx, room_len, room_wid)
