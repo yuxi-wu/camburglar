@@ -16,12 +16,12 @@ def localization(coords, c, g, x0, y0):
 	return c + g * np.log10(((x1-x0)**2 + (y1-y0)**2)**0.5)
 
 
-def c_fit(tx):
+def c_fit(tx, room_len, room_wid):
 	popt, pcov = scopt.curve_fit(localization,
 	                             (tx.loc_x,tx.loc_y),
 	                             tx.RSSI,
 	                             maxfev=250000,
-	                             bounds=((-100,-5,0,0),(30,5,40,40)))
+	                             bounds=((-100,-5,0,0),(30,5,room_wid,room_len)))
 	return popt
 
 
@@ -54,5 +54,5 @@ def fit(df, mac_addr, room_len, room_wid):
 
     loc_df = pd.DataFrame(loc_dict, columns=['loc_x','loc_y','Time'])
     tx = tx.merge(loc_df, on='Time', how='left')
-    popts = c_fit(tx)
+    popts = c_fit(tx, room_len, room_wid)
     return popts
