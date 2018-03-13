@@ -29,30 +29,31 @@ def fit(df, mac_addr, room_len, room_wid):
     '''
     checks for mac addr in df and returns estimated coords
     '''
-
-    time = list(df['Time'])
-    t = max(time)
     tx = df[df['Source'].str.contains(mac_addr)]
+    time = tx['Time']
+    t = max(time)
 
-    y_loc1 = [(0, y*room_len/t) for y in df['Time']]
-    x_loc1 = [(x*room_wid/(t+10), room_len) for x in df['Time']]
+    tx1 = tx[tx['Time'] <= 10]
+    tx2 = tx[(tx['Time'] > 10) & (tx['Time'] <= 20)] 
+    tx3 = tx[(tx['Time'] > 20) & (tx['Time'] <= 30)]
+    tx4 = tx[(tx['Time'] > 30) & (tx['Time'] <= t)]
 
-    y_loc2 = y_loc1[::-1]
-    x_loc2 = x_loc1[::-1]
+    xy1 = [(0, room_len*(t/10)) for t in tx1['Time']]
+    xy2 = [(x*room_wid/(t-10), room_len) for x in tx2['Time']]
 
-    x1 = [x for x,y in x_loc1]
-    x2 = [x for x,y in x_loc2]
-    y1 = [y for x,y in y_loc1]
-    y2 = [y for x,y in y_loc2]
-    
-    x_coords = x1+x2
-    y_coords = y1+y2
+    return xy1, xy2
 
-    loc_dict = {'loc_x':x_coords,
-    			'loc_y':y_coords,
-    			'Time':time}
+    xy3 = [(room_wid, (room_len - y*room_len/(t-20))) for y in tx3['Time']]
+    xy4 = [((room_wid - x*room_wid/(t-30)), 0) for x in tx4['Time']]
 
-    loc_df = pd.DataFrame(loc_dict, columns=['loc_x','loc_y','Time'])
+    coords = xy1+xy2+xy3+xy4
+    loc_x, loc_y = zip(*coords)
+
+    loc_dict = {'loc_x':loc_x,
+    			'loc_y':loc_y,
+                'Time':time}
+    loc_df = pd.DataFrame(loc_dict)
     tx = tx.merge(loc_df, on='Time', how='left')
+    return tx
     popts = c_fit(tx, room_len, room_wid)
     return popts
