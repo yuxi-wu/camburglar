@@ -34,11 +34,19 @@ def fit(df, mac_addr, room_len, room_wid):
     t = max(time)
     tx = df[df['Source'].str.contains(mac_addr)]
 
-    y_loc = [(0, y*room_len/t) for y in df['Time']]
-    x_loc = [(x*room_wid/t+10, room_len) for x in df['Time']]
+    y_loc1 = [(0, y*room_len/t) for y in df['Time']]
+    x_loc1 = [(x*room_wid/(t+10), room_len) for x in df['Time']]
 
-    x_coords = [x for x,y in y_loc]
-    y_coords = [y for x,y in y_loc]
+    y_loc2 = y_loc1[::-1]
+    x_loc2 = x_loc1[::-1]
+
+    x1 = [x for x,y in x_loc1]
+    x2 = [x for x,y in x_loc2]
+    y1 = [y for x,y in y_loc1]
+    y2 = [y for x,y in y_loc2]
+    
+    x_coords = x1+x2
+    y_coords = y1+y2
 
     loc_dict = {'loc_x':x_coords,
     			'loc_y':y_coords,
