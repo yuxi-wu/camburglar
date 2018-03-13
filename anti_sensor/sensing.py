@@ -2,7 +2,7 @@ import pandas as pd
 from anti_sensor.traffic import get_packets, preprocess, all_device_stats
 from anti_sensor.localization import fit
 
-def sense(x, y):
+def sense(x, y, sof=1):
     sides = [get_packets('side'+str(s)) for s in range(4)]
 
     counter = 0
@@ -13,9 +13,11 @@ def sense(x, y):
         counter += 10
 
     df = pd.concat(sides)
-    devices = all_device_stats(df, spy_or_facetime=1)
+    devices = all_device_stats(df, spy_or_facetime=sof)
 
-    locs = pd.DataFrame([(d, fit(df, d, x, y)) for d in devices])
+    locs = pd.DataFrame([{'device':d, 'coords':(fit(df, d, 6, 6)[2], fit(df, d, 6, 6)[3])} for d in devices])
+    locs.set_index('device', inplace=True)
+    locs = locs.to_html().replace('\n','')
 
     with open('locs.html', 'w') as html:
         html.write(locs.to_html())
