@@ -15,11 +15,10 @@ def sense(x, y, sof=1):
     df = pd.concat(sides)
     devices = all_device_stats(df, spy_or_facetime=sof)
 
-    locs = pd.DataFrame([{'device':d, 'coords':(fit(df, d, x, y)[2], fit(df, d, 6, 6)[3])} for d in devices])
-    #locs.set_index('device', inplace=True)
+    locs = pd.DataFrame([{'device':d, 'coords':(fit(df, d, x, y)[2], fit(df, d, x, y)[3])} for d in devices])
     locs = locs.to_html().replace('\n','')
 
     with open('locs.html', 'w') as html:
-        html.write(locs.to_html())
+        html.write(locs)
 
     return len(devices)

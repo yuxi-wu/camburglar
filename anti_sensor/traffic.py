@@ -140,11 +140,11 @@ def all_device_stats(data, spy_or_facetime=0, streaming=False):
             & (stats['packets_sent'] == 2) \
             & (stats['size_sent'].between(150, 200))]['device']
     elif spy_or_facetime == 1:
-        return stats[(stats['packets_received'] > 300) \
-            & (stats['size_received'] > 100)\
-            & (stats['packets_sent'] > 300) \
+        return stats[(stats['packets_received'] > 200) \
+            & (stats['size_received'] > 200)\
+            & (stats['packets_sent'] > 200) \
             & (stats['size_sent'] > 200)\
-            & (stats['size_sent'] > 150)]['device']
+            & (stats['size_sent'] > 200)]['device']
 
 
 def get_device_traffic_counts(data, device, rolling=False, grouped=True):

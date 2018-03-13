@@ -33,18 +33,17 @@ def fit(df, mac_addr, room_len, room_wid):
     time = tx['Time']
     t = max(time)
 
-    tx1 = tx[tx['Time'] <= 10]
-    tx2 = tx[(tx['Time'] > 10) & (tx['Time'] <= 20)] 
-    tx3 = tx[(tx['Time'] > 20) & (tx['Time'] <= 30)]
-    tx4 = tx[(tx['Time'] > 30) & (tx['Time'] <= t)]
+    tx['side'] = pd.cut(tx['Time'], [-1,10,20,30,40], labels=['side1','side2','side3', 'side4'])
+
+    tx1 = tx[tx['side'] == 'side1']
+    tx2 = tx[tx['side'] == 'side2']
+    tx3 = tx[tx['side'] == 'side3']
+    tx4 = tx[tx['side'] == 'side4']
 
     xy1 = [(0, room_len*(t/10)) for t in tx1['Time']]
-    xy2 = [(x*room_wid/(t-10), room_len) for x in tx2['Time']]
-
-    return xy1, xy2
-
-    xy3 = [(room_wid, (room_len - y*room_len/(t-20))) for y in tx3['Time']]
-    xy4 = [((room_wid - x*room_wid/(t-30)), 0) for x in tx4['Time']]
+    xy2 = [((t-10)*room_wid/10, room_len) for t in tx2['Time']]
+    xy3 = [(room_wid, (room_len - (t-20)*room_len/10)) for t in tx3['Time']]
+    xy4 = [((room_wid - (t-30)*room_wid/10), 0) for t in tx4['Time']]
 
     coords = xy1+xy2+xy3+xy4
     loc_x, loc_y = zip(*coords)
@@ -54,6 +53,6 @@ def fit(df, mac_addr, room_len, room_wid):
                 'Time':time}
     loc_df = pd.DataFrame(loc_dict)
     tx = tx.merge(loc_df, on='Time', how='left')
-    return tx
+    # return tx
     popts = c_fit(tx, room_len, room_wid)
     return popts
