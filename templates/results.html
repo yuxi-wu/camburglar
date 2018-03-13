@@ -1,15 +1,21 @@
 <head>
-  <title>Hamburglar | Results</title>
+    <title>Hamburglar | Results</title>
+    <script src="jquery.js"></script>
+    <script>
+        $(function(){
+            $("#includedContent").load("../anti_sensor/locs.html");
+        });
+    </script>
 </head>
 
-    <link rel="stylesheet" type="text/css" href="../css/results.css">
+<link rel="stylesheet" type="text/css" href="../css/results.css">
 
-    <div id="header">
-		<p class="header">Hamburglar | <a class="header" href="home.html">Home</a></p>
-	</div>
-    <h1>Results</h1>
-    <ul>
+<div id="header">
+	<p class="header">Hamburglar | <a class="header" href="home.html">Home</a></p>
+</div>
 
-        {{ data['results'] }}
-
-    </ul>
+<h1>Results</h1>
+<ul>
+    {{data['results']}} possibly suspicious devices found!
+    <div id="includedContent"></div>
+</ul>

@@ -125,20 +125,25 @@ def device_packet_stats(data, device_label, known=False):
             'size_sent': size_s,
             'rss_sent':rss_s}
 
-def all_device_stats(data, spy_or_facetime=0):
+def all_device_stats(data, spy_or_facetime=0, streaming=False):
     stats = pd.DataFrame([device_packet_stats(data, device) for device in set(data['Source'])])
 
     if spy_or_facetime == 0:
+        if streaming:
+            return stats[(stats['packets_received'].between(4,8)) \
+                & (stats['size_received'].between(165,180))\
+                & (stats['packets_sent'].between(9,16)) \
+                & (stats['size_sent'] > 950)]['device']
         return stats[(stats['packets_received'].isna()) \
             & (stats['size_received'].isna())\
             & (stats['rss_received'].isna())\
             & (stats['packets_sent'] == 2) \
             & (stats['size_sent'].between(150, 200))]['device']
     elif spy_or_facetime == 1:
-        return stats[(stats['packets_received'].between(75, 95)) \
+        return stats[(stats['packets_received'] > 300) \
             & (stats['size_received'] > 100)\
-            & (stats['packets_sent'].between(60, 80)) \
-            & (stats['size_sent'] < 200)\
+            & (stats['packets_sent'] > 300) \
+            & (stats['size_sent'] > 200)\
             & (stats['size_sent'] > 150)]['device']
 
 
@@ -170,7 +175,7 @@ def plot_device_traffic(data, device):
     source, destination = get_device_traffic_counts(data, device, rolling=True)
     plt.plot(source, color='#2ab74f')
     plt.plot(destination, color='#e05077')
-    plt.savefig('actvity-plots/' + device + '.png')
+    plt.savefig(device + '.png')
     plt.close('all')
 
 

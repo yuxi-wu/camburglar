@@ -1,9 +1,9 @@
 from flask import render_template, request
 from app import app
 from form import UrlForm
-from anti_sensor import sensing
+from anti_sensor.sensing import sense
 
-@app.route("/model")
+@app.route("/anti")
 @app.route('/')
 def homepage():
     print('routed correctly')
@@ -12,11 +12,11 @@ def homepage():
                            title="Hamburglar!",
                            form=form)
 
-@app.route("/results.html", methods=["post"])
+#@app.route('')
+@app.route("/results", methods=["post"])
 def results():
     try:
-        results = sense(int(request.form['Length']), int(request.form['Width']))
-        results = {'results': pd.DataFrame(results).to_html()}
+        results = {'results': sense(int(request.form['Length']), int(request.form['Width']))}
 
     except AssertionError:
         results = {'none': ['']}
